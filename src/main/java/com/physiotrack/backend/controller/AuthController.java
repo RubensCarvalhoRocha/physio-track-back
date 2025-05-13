@@ -3,6 +3,7 @@ package com.physiotrack.backend.controller;
 import com.physiotrack.backend.model.auth.dto.AuthRequest;
 import com.physiotrack.backend.model.auth.dto.AuthResponse;
 import com.physiotrack.backend.model.enums.Role;
+import com.physiotrack.backend.model.pessoa.Pessoa;
 import com.physiotrack.backend.model.user.User;
 import com.physiotrack.backend.repository.UserRepository;
 import com.physiotrack.backend.config.security.JwtService;
@@ -34,6 +35,7 @@ public class AuthController {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
+                .tipoUsuario("Usuario")
                 .build();
         userRepository.save(user);
         String token = jwtService.generateToken(user);
