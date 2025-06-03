@@ -1,5 +1,6 @@
 package com.physiotrack.backend.service;
 
+import com.physiotrack.backend.model.estado.Estado;
 import com.physiotrack.backend.repository.EstadoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,4 +14,7 @@ public class EstadoService {
 
     private final EstadoRepository estadoRepository;
 
+    public List<Estado> listarTodos() {
+        return estadoRepository.findAll();
+    }
 }

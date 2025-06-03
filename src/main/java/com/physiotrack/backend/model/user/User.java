@@ -1,5 +1,6 @@
 package com.physiotrack.backend.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.physiotrack.backend.model.enums.Role;
 import com.physiotrack.backend.model.pessoa.Pessoa;
 import lombok.AllArgsConstructor;
@@ -38,6 +39,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String email;
 
+    @JsonIgnore
     @Column(name = "senha" , nullable = false)
     private String password;
 

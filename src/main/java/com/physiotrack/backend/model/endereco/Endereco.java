@@ -32,10 +32,6 @@ public class Endereco {
     @Column(nullable = false)
     private String cep;
 
-    @OneToOne
-    @JoinColumn(name = "pessoa_id", referencedColumnName = "id")
-    private Pessoa pessoa;
-
     @ManyToOne
     @JoinColumn(name = "cidade_id")
     private Cidade cidade;

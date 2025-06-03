@@ -5,8 +5,10 @@ import com.physiotrack.backend.model.auth.dto.AuthResponse;
 import com.physiotrack.backend.model.enums.Role;
 import com.physiotrack.backend.model.pessoa.Pessoa;
 import com.physiotrack.backend.model.user.User;
+import com.physiotrack.backend.model.user.UserRegisterDTO;
 import com.physiotrack.backend.repository.UserRepository;
 import com.physiotrack.backend.config.security.JwtService;
+import com.physiotrack.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,31 +26,15 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*")
 public class AuthController {
 
-    private final AuthenticationManager authenticationManager;
-    private final UserRepository userRepository;
-    private final JwtService jwtService;
-    private final PasswordEncoder passwordEncoder;
-
+    private final UserService userService;
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody AuthRequest request) {
-        User user = User.builder()
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
-                .tipoUsuario("Usuario")
-                .build();
-        userRepository.save(user);
-        String token = jwtService.generateToken(user);
-        return ResponseEntity.ok(new AuthResponse(token));
+    public ResponseEntity<Void> register(@RequestBody UserRegisterDTO dto) {
+        userService.register(dto);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-        );
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
-        String token = jwtService.generateToken(user);
-        return ResponseEntity.ok(new AuthResponse(token));
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
+        return ResponseEntity.ok(userService.login(request));
     }
 }

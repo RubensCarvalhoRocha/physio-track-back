@@ -5,23 +5,6 @@ CREATE TABLE dummy (
                          CONSTRAINT cliente_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE pessoa (
-                        id BIGSERIAL PRIMARY KEY,
-                        nome VARCHAR(255) NOT NULL,
-                        cpf VARCHAR(14) NOT NULL UNIQUE,
-                        telefone VARCHAR(20)
-);
-
-CREATE TABLE usuario (
-                         id BIGSERIAL PRIMARY KEY,
-                         email VARCHAR(255) NOT NULL UNIQUE,
-                         senha VARCHAR(255) NOT NULL,
-                         role VARCHAR(50) NOT NULL,
-                         tipo_usuario VARCHAR(50) NOT NULL,
-                         pessoa_id BIGINT UNIQUE,
-                         CONSTRAINT fk_pessoa FOREIGN KEY (pessoa_id) REFERENCES pessoa (id)
-);
-
 CREATE TABLE estado (
                         id BIGSERIAL PRIMARY KEY,
                         nome VARCHAR(255) NOT NULL,
@@ -40,11 +23,30 @@ CREATE TABLE endereco (
                           rua VARCHAR(255) NOT NULL,
                           estado VARCHAR(100) NOT NULL,
                           cep VARCHAR(20) NOT NULL,
-                          pessoa_id BIGINT NOT NULL,
                           cidade_id BIGINT NOT NULL,
-                          CONSTRAINT fk_pessoa_endereco FOREIGN KEY (pessoa_id) REFERENCES pessoa (id),
                           CONSTRAINT fk_cidade FOREIGN KEY (cidade_id) REFERENCES cidade (id)
 );
+
+CREATE TABLE pessoa (
+                        id BIGSERIAL PRIMARY KEY,
+                        nome VARCHAR(255) NOT NULL,
+                        cpf VARCHAR(14) NOT NULL UNIQUE,
+                        telefone VARCHAR(20),
+                        endereco_id BIGINT,
+                        CONSTRAINT fk_endereco_pessoa FOREIGN KEY (endereco_id) REFERENCES endereco (id)
+);
+
+
+CREATE TABLE usuario (
+                         id BIGSERIAL PRIMARY KEY,
+                         email VARCHAR(255) NOT NULL UNIQUE,
+                         senha VARCHAR(255) NOT NULL,
+                         role VARCHAR(50) NOT NULL,
+                         tipo_usuario VARCHAR(50) NOT NULL,
+                         pessoa_id BIGINT UNIQUE,
+                         CONSTRAINT fk_pessoa FOREIGN KEY (pessoa_id) REFERENCES pessoa (id)
+);
+
 
 CREATE TABLE atendimento (
                              id BIGSERIAL PRIMARY KEY,
