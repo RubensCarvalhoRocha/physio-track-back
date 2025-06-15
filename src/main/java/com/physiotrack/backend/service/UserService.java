@@ -10,6 +10,7 @@ import com.physiotrack.backend.model.endereco.Endereco;
 import com.physiotrack.backend.model.enums.Role;
 import com.physiotrack.backend.model.estado.Estado;
 import com.physiotrack.backend.model.pessoa.Pessoa;
+import com.physiotrack.backend.model.pessoa.PessoaRequestDTO;
 import com.physiotrack.backend.model.user.User;
 import com.physiotrack.backend.model.user.UserRegisterDTO;
 import com.physiotrack.backend.repository.CidadeRepository;
@@ -20,6 +21,7 @@ import com.physiotrack.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,34 +35,11 @@ public class UserService {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final PessoaService pessoaService;
-    private final CidadeService cidadeService;
-    private final EstadoService estadoService;
-    private final EnderecoService enderecoService;
 
     @Transactional
     public void register(UserRegisterDTO dto) {
         //
-        Estado estado = estadoService.findById(dto.getPessoa().getEndereco().getEstadoId());
-        //
-        Cidade cidade = new Cidade();
-        cidade.setNome(dto.getPessoa().getEndereco().getCidade());
-        cidade.setEstado(estado);
-        cidadeService.insertCidade(cidade);
-        //
-        Endereco endereco = new Endereco();
-        endereco.setRua(dto.getPessoa().getEndereco().getRua());
-        endereco.setCep(dto.getPessoa().getEndereco().getCep());
-        endereco.setEstado(estado.getSigla());
-        endereco.setCidade(cidade);
-        enderecoService.insertEdereco(endereco);
-        //
-        Pessoa pessoa = new Pessoa();
-        pessoa.setNome(dto.getPessoa().getNome());
-        pessoa.setCpf(dto.getPessoa().getCpf());
-        pessoa.setTelefone(dto.getPessoa().getTelefone());
-        pessoa.setEndereco(endereco);
-        //
-        pessoaService.insertPessoa(pessoa);
+        Pessoa pessoa = pessoaService.register(dto.getPessoa());
         //
         User user = User.builder()
                 .email(dto.getEmail())
