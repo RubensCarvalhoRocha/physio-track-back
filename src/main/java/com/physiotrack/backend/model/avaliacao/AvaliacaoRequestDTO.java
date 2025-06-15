@@ -1,29 +1,16 @@
 package com.physiotrack.backend.model.avaliacao;
 
-import com.physiotrack.backend.model.atendimento.Atendimento;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
-@Entity
-@Table(name = "avaliacao")
-public class Avaliacao {
+public class AvaliacaoRequestDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @OneToOne
-    @JoinColumn(name = "atendimento_id")
-    private Atendimento atendimento;
 
     private LocalDateTime data;
 

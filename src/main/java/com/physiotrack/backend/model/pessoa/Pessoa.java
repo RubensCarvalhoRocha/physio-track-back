@@ -1,11 +1,14 @@
 package com.physiotrack.backend.model.pessoa;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.physiotrack.backend.model.endereco.Endereco;
 import com.physiotrack.backend.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,7 +20,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "pessoa")
 public class Pessoa {
@@ -33,9 +37,6 @@ public class Pessoa {
     private String cpf;
 
     private String telefone;
-
-    @OneToOne(mappedBy = "pessoa")
-    private User usuario;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")

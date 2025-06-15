@@ -37,7 +37,8 @@ public class SecurityConfig {
                         "/configuration/**",
                         "/webjars/**",
                         "/h2-console/**",
-                        "/api/cidade/ibge/**"
+                        "/api/cidade/ibge/**",
+                        "/api/estado/**"
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and()

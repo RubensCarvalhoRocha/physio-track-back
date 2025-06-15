@@ -1,6 +1,7 @@
 package com.physiotrack.backend.service;
 
 
+import com.physiotrack.backend.exceptions.ObjectNotFoundException;
 import com.physiotrack.backend.model.cidade.Cidade;
 import com.physiotrack.backend.model.endereco.Endereco;
 import com.physiotrack.backend.model.estado.Estado;
@@ -8,7 +9,10 @@ import com.physiotrack.backend.model.pessoa.Pessoa;
 import com.physiotrack.backend.model.pessoa.PessoaRequestDTO;
 import com.physiotrack.backend.repository.PessoaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +52,15 @@ public class PessoaService {
         insertPessoa(pessoa);
         //
         return pessoa;
+    }
+
+    public List<Pessoa> findPessoas (){
+        return pessoaRepository.findAll();
+    }
+
+    public Pessoa findById(Long id){
+        return pessoaRepository.findById(id)
+                .orElseThrow(()-> new ObjectNotFoundException("Pessoa não encontrada"));
     }
 
 }

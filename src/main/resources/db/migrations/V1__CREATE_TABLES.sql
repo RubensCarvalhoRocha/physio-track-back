@@ -53,7 +53,7 @@ CREATE TABLE atendimento (
                              usuario_id BIGINT NOT NULL,
                              paciente_id BIGINT NOT NULL,
                              tipo_atendimento VARCHAR(100) NOT NULL,
-                             data TIMESTAMP NOT NULL,
+                             data_atendimento TIMESTAMP NOT NULL,
                              descricao TEXT,
                              CONSTRAINT fk_usuario_atendimento FOREIGN KEY (usuario_id) REFERENCES usuario (id),
                              CONSTRAINT fk_paciente_atendimento FOREIGN KEY (paciente_id) REFERENCES pessoa (id)
@@ -71,5 +71,70 @@ CREATE TABLE imagem (
 CREATE TABLE avaliacao (
                            id BIGSERIAL PRIMARY KEY,
                            atendimento_id BIGINT NOT NULL,
+                           data DATE,
+                           altura DOUBLE PRECISION,
+                           peso DOUBLE PRECISION,
+                           imc DOUBLE PRECISION,
+                           esporte TEXT,
+                           queixas TEXT,
+                           historico_saude TEXT,
+                           medicamentos TEXT,
+                           cirurgia TEXT,
+                           tratamento_anterior TEXT,
+                           exame_imagem TEXT,
+                           diagnostico_medico TEXT,
+                           obj_tratamento TEXT,
+                           obs_gerais TEXT,
+
+                           perimetria_medida1d DOUBLE PRECISION,
+                           perimetria_medida2d DOUBLE PRECISION,
+                           perimetria_medida3d DOUBLE PRECISION,
+                           perimetria_panturrilhad DOUBLE PRECISION,
+
+                           perimetria_assimetria_medida1e DOUBLE PRECISION,
+                           perimetria_assimetria_medida2e DOUBLE PRECISION,
+                           perimetria_assimetria_medida3e DOUBLE PRECISION,
+                           perimetria_panturrilhae DOUBLE PRECISION,
+
+                           perimetria_medida_ass1 DOUBLE PRECISION,
+                           perimetria_medida_ass2 DOUBLE PRECISION,
+                           perimetria_medida_ass3 DOUBLE PRECISION,
+                           perimetria_panturrilha_ass DOUBLE PRECISION,
+
+                           lunged DOUBLE PRECISION,
+                           lungee DOUBLE PRECISION,
+                           lunge_ass DOUBLE PRECISION,
+
+                           rot_quad_interd DOUBLE PRECISION,
+                           rot_quad_intere DOUBLE PRECISION,
+                           rot_quad_inter_ass DOUBLE PRECISION,
+
+                           rot_quad_exterd DOUBLE PRECISION,
+                           rot_quad_extere DOUBLE PRECISION,
+                           rot_quad_exter_ass DOUBLE PRECISION,
+
+                           ext_joelhod DOUBLE PRECISION,
+                           ext_joelhoe DOUBLE PRECISION,
+                           ext_joelho_ass DOUBLE PRECISION,
+
+                           flex_joelhod DOUBLE PRECISION,
+                           flex_joelhoe DOUBLE PRECISION,
+                           flex_joelho_ass DOUBLE PRECISION,
+
+                           sh_test1d DOUBLE PRECISION,
+                           sh_test2d DOUBLE PRECISION,
+                           sh_test3d DOUBLE PRECISION,
+                           sh_test_mediad DOUBLE PRECISION,
+
+                           sh_test1e DOUBLE PRECISION,
+                           sh_test2e DOUBLE PRECISION,
+                           sh_test3e DOUBLE PRECISION,
+                           sh_test_mediae DOUBLE PRECISION,
+
+                           sh_test_score DOUBLE PRECISION,
+                           slb_testd DOUBLE PRECISION,
+                           slb_teste DOUBLE PRECISION,
+
                            CONSTRAINT fk_atendimento_avaliacao FOREIGN KEY (atendimento_id) REFERENCES atendimento (id)
 );
+

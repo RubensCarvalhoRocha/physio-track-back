@@ -2,7 +2,9 @@ package com.physiotrack.backend.service;
 
 
 import com.physiotrack.backend.config.security.JwtService;
+import com.physiotrack.backend.exceptions.CustomException;
 import com.physiotrack.backend.exceptions.ObjectNotFoundException;
+import com.physiotrack.backend.exceptions.StandardError;
 import com.physiotrack.backend.model.auth.dto.AuthRequest;
 import com.physiotrack.backend.model.auth.dto.AuthResponse;
 import com.physiotrack.backend.model.cidade.Cidade;
@@ -21,7 +23,9 @@ import com.physiotrack.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,5 +71,18 @@ public class UserService {
 
         String token = jwtService.generateToken(user);
         return new AuthResponse(token);
+    }
+
+
+    public User getLoggedUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails userDetails) {
+            String userEmail = ((User)principal).getEmail();
+            return userRepository.findByEmail(userEmail)
+                    .orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado"));
+        }
+
+        throw new CustomException("Usuário não autenticado");
     }
 }
