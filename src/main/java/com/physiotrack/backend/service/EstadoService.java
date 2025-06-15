@@ -1,5 +1,6 @@
 package com.physiotrack.backend.service;
 
+import com.physiotrack.backend.exceptions.ObjectNotFoundException;
 import com.physiotrack.backend.model.estado.Estado;
 import com.physiotrack.backend.repository.EstadoRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,5 +17,10 @@ public class EstadoService {
 
     public List<Estado> listarTodos() {
         return estadoRepository.findAll();
+    }
+
+    public Estado findById(Long id){
+        return estadoRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Estado não encontrado"));
     }
 }

@@ -32,16 +32,15 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
-    private final PessoaRepository pessoaRepository;
+    private final PessoaService pessoaService;
     private final CidadeService cidadeService;
-    private final EstadoRepository estadoRepository;
-    private final EnderecoRepository enderecoRepository;
+    private final EstadoService estadoService;
+    private final EnderecoService enderecoService;
 
     @Transactional
     public void register(UserRegisterDTO dto) {
         //
-        Estado estado = estadoRepository.findById(dto.getPessoa().getEndereco().getEstadoId())
-                .orElseThrow(() -> new ObjectNotFoundException("Estado não encontrado"));
+        Estado estado = estadoService.findById(dto.getPessoa().getEndereco().getEstadoId());
         //
         Cidade cidade = new Cidade();
         cidade.setNome(dto.getPessoa().getEndereco().getCidade());
@@ -53,7 +52,7 @@ public class UserService {
         endereco.setCep(dto.getPessoa().getEndereco().getCep());
         endereco.setEstado(estado.getSigla());
         endereco.setCidade(cidade);
-        enderecoRepository.save(endereco);
+        enderecoService.insertEdereco(endereco);
         //
         Pessoa pessoa = new Pessoa();
         pessoa.setNome(dto.getPessoa().getNome());
@@ -61,7 +60,7 @@ public class UserService {
         pessoa.setTelefone(dto.getPessoa().getTelefone());
         pessoa.setEndereco(endereco);
         //
-        pessoaRepository.save(pessoa);
+        pessoaService.insertPessoa(pessoa);
         //
         User user = User.builder()
                 .email(dto.getEmail())
