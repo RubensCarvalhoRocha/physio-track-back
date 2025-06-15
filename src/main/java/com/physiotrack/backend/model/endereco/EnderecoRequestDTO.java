@@ -16,5 +16,5 @@ public class EnderecoRequestDTO {
     private String rua;
     private String cep;
     private Long estadoId;
-    private Long cidadeId;
+    private String cidade;
 }

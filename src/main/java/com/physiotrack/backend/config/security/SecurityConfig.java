@@ -36,7 +36,8 @@ public class SecurityConfig {
                         "/swagger-resources/**",
                         "/configuration/**",
                         "/webjars/**",
-                        "/h2-console/**"
+                        "/h2-console/**",
+                        "/api/cidade/ibge/**"
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and()

@@ -33,7 +33,7 @@ public class UserService {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final PessoaRepository pessoaRepository;
-    private final CidadeRepository cidadeRepository;
+    private final CidadeService cidadeService;
     private final EstadoRepository estadoRepository;
     private final EnderecoRepository enderecoRepository;
 
@@ -42,8 +42,11 @@ public class UserService {
         //
         Estado estado = estadoRepository.findById(dto.getPessoa().getEndereco().getEstadoId())
                 .orElseThrow(() -> new ObjectNotFoundException("Estado não encontrado"));
-        Cidade cidade = cidadeRepository.findById(dto.getPessoa().getEndereco().getCidadeId())
-                .orElseThrow(() -> new ObjectNotFoundException("Cidade não encontrada"));
+        //
+        Cidade cidade = new Cidade();
+        cidade.setNome(dto.getPessoa().getEndereco().getCidade());
+        cidade.setEstado(estado);
+        cidadeService.insertCidade(cidade);
         //
         Endereco endereco = new Endereco();
         endereco.setRua(dto.getPessoa().getEndereco().getRua());
