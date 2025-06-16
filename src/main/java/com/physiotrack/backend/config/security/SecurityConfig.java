@@ -1,6 +1,5 @@
 package com.physiotrack.backend.config.security;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,17 +21,23 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final UserDetailsServiceImpl userDetailsService;
 
+    // Construtor manual
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter, UserDetailsServiceImpl userDetailsService) {
+        this.jwtAuthFilter = jwtAuthFilter;
+        this.userDetailsService = userDetailsService;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .cors()
+                .and()
                 .csrf().disable()
-                .cors().and()
                 .authorizeRequests()
                 .antMatchers(
                         "/auth/**",
@@ -41,10 +46,7 @@ public class SecurityConfig {
                         "/swagger-ui.html",
                         "/swagger-resources/**",
                         "/configuration/**",
-                        "/webjars/**",
-                        "/h2-console/**",
-                        "/api/cidade/ibge/**",
-                        "/api/estado/**"
+                        "/webjars/**"
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -53,8 +55,6 @@ public class SecurityConfig {
                 .and()
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .headers().frameOptions().disable() // H2 iframe
-                .and()
                 .build();
     }
 
@@ -78,14 +78,16 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("*"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true);
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:4200")); // liberar o Angular
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // métodos permitidos
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type")); // headers permitidos
+        configuration.setAllowCredentials(true); // se precisar enviar Authorization
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
+        source.registerCorsConfiguration("/**", configuration); // aplica em todas as rotas (incluindo /imol/**)
+
         return source;
     }
 }
+

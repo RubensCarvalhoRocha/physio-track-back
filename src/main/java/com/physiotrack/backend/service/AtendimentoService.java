@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -47,5 +48,29 @@ public class AtendimentoService {
         return atendimentoRepository.findLast(id);
     }
 
+    public List<Atendimento> listarAtendimentos() {
+        return atendimentoRepository.findAll();
+    }
 
+    public Atendimento obterAtendimento(Long id) {
+        return atendimentoRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Atendimento não encontrado com ID: " + id));
+    }
+
+    @Transactional
+    public Atendimento atualizarAtendimento(Long id, AtendimentoRequestDTO dto) {
+        Atendimento atendimento = obterAtendimento(id);
+        Pessoa paciente = pessoaService.findById(dto.getPacienteId());
+
+        atendimento.setPaciente(paciente);
+        atendimento.setTipoAtendimento(dto.getTipoAtendimento());
+        atendimento.setDescricao(dto.getDescricao());
+
+        // Atualiza a data, se fornecida
+        if (dto.getDataAtendimento() != null) {
+            atendimento.setDataAtendimento(dto.getDataAtendimento());
+        }
+
+        return atendimentoRepository.save(atendimento);
+    }
 }
