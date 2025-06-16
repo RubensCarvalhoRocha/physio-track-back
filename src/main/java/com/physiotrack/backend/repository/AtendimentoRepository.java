@@ -16,4 +16,5 @@ public interface AtendimentoRepository extends JpaRepository<Atendimento, Long> 
     LIMIT 1
     """, nativeQuery = true)
     Atendimento findLast(@Param("userId") Long userId);
+
 }
