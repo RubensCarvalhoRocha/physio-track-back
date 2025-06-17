@@ -1,7 +1,5 @@
 package com.physiotrack.backend.model.pessoa;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.physiotrack.backend.model.endereco.EnderecoRequestDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,11 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PessoaRequestDTO {
-
+public class PessoaPutRequestDTO {
     private String nome;
     private String cpf;
     private String telefone;
-    private EnderecoRequestDTO endereco; //TODO Verificar a possibilidade de alterar endereço
-
 }

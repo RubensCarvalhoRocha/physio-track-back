@@ -7,7 +7,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class PessoaResponseDTO {
+    private String nome;
+    private String cpf;
+    private String telefone;
 }
