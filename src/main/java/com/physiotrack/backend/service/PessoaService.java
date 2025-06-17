@@ -48,6 +48,7 @@ public class PessoaService {
         pessoa.setCpf(dto.getCpf());
         pessoa.setTelefone(dto.getTelefone());
         pessoa.setEndereco(endereco);
+        pessoa.setAtivo(true);
         //
         insertPessoa(pessoa);
         //
@@ -65,6 +66,7 @@ public class PessoaService {
 
     public void excluirPessoa(Long id) {
         Pessoa pessoa = findById(id); // Garante que lança exceção se não existir
-        pessoaRepository.delete(pessoa);
+        pessoa.setAtivo(false);
+        pessoaRepository.save(pessoa);
     }
 }
