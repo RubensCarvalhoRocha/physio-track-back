@@ -1,13 +1,7 @@
 package com.physiotrack.backend.model.pessoa;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.physiotrack.backend.model.endereco.Endereco;
-import com.physiotrack.backend.model.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.CascadeType;
@@ -41,4 +35,6 @@ public class Pessoa {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
     private Endereco endereco;
+
+    private Boolean ativo;
 }

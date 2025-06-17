@@ -33,6 +33,7 @@ CREATE TABLE pessoa (
                         cpf VARCHAR(14) NOT NULL UNIQUE,
                         telefone VARCHAR(20),
                         endereco_id BIGINT,
+                        ativo BOOLEAN NOT NULL DEFAULT true,
                         CONSTRAINT fk_endereco_pessoa FOREIGN KEY (endereco_id) REFERENCES endereco (id)
 );
 
