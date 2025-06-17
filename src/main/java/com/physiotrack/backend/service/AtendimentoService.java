@@ -1,5 +1,6 @@
 package com.physiotrack.backend.service;
 
+import com.physiotrack.backend.exceptions.ObjectNotFoundException;
 import com.physiotrack.backend.model.atendimento.Atendimento;
 import com.physiotrack.backend.model.atendimento.AtendimentoRequestDTO;
 import com.physiotrack.backend.model.pessoa.Pessoa;
@@ -54,7 +55,7 @@ public class AtendimentoService {
 
     public Atendimento obterAtendimento(Long id) {
         return atendimentoRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Atendimento não encontrado com ID: " + id));
+                .orElseThrow(() -> new ObjectNotFoundException("Atendimento não encontrado com ID: " + id));
     }
 
     @Transactional
