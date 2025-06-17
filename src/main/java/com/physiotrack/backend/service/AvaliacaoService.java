@@ -66,7 +66,7 @@ public class AvaliacaoService {
 
     public byte[] gerarPdf(Long id) throws JRException, IOException {
         // Busca a avaliação
-        Avaliacao avaliacao = findAvaliacaoById(id);
+        Avaliacao avaliacao = avaliacaoRepository.findLast(id);
 
         // Carrega a imagem do classpath
         InputStream imageStream = getClass().getResourceAsStream("/jasper/av_V_1/imgBg1.png");
