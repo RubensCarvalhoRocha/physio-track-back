@@ -41,6 +41,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(
                         "/auth/**",
+                        "/api/estado",
+                        "/api/cidade/ibge/**",
                         "/v3/api-docs/**",
                         "/swagger-ui/**",
                         "/swagger-ui.html",
