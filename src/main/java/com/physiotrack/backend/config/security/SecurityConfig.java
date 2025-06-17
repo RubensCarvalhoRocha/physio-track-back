@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(
+                        "/",
                         "/auth/**",
                         "/api/estado",
                         "/api/cidade/ibge/**",
