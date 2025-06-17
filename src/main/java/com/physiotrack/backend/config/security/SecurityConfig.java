@@ -87,7 +87,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:4200",
-                "https://seu-frontend.app" )); // liberar o Angular
+                "https://physio-track-front-git-main-rubenscarvalhorochas-projects.vercel.app" )); // liberar o Angular
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // métodos permitidos
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type")); // headers permitidos
         configuration.setAllowCredentials(true); // se precisar enviar Authorization
