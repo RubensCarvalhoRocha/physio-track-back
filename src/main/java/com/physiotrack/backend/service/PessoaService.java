@@ -63,4 +63,8 @@ public class PessoaService {
                 .orElseThrow(()-> new ObjectNotFoundException("Pessoa não encontrada"));
     }
 
+    public void excluirPessoa(Long id) {
+        Pessoa pessoa = findById(id); // Garante que lança exceção se não existir
+        pessoaRepository.delete(pessoa);
+    }
 }
