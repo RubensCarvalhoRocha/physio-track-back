@@ -19,6 +19,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -64,9 +65,14 @@ public class AvaliacaoService {
                 .orElseThrow(()->  new ObjectNotFoundException("Avaliação não encontrada"));
     }
 
+    public Avaliacao findLast(Long atendimentoId){
+        return avaliacaoRepository.findLast(atendimentoId)
+                .orElseThrow(()->  new ObjectNotFoundException("Avaliação não encontrada"));
+    }
+
     public byte[] gerarPdf(Long id) throws JRException, IOException {
         // Busca a avaliação
-        Avaliacao avaliacao = avaliacaoRepository.findLast(id);
+        Avaliacao avaliacao = findLast(id);
 
         // Carrega a imagem do classpath
         InputStream imageStream = getClass().getResourceAsStream("/jasper/av_V_1/imgBg1.png");

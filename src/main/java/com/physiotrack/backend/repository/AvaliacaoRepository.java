@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
 
@@ -16,6 +18,6 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
     ORDER BY data DESC 
     LIMIT 1
     """, nativeQuery = true)
-    Avaliacao findLast(@Param("atendimentoId") Long userId);
+    Optional<Avaliacao> findLast(@Param("atendimentoId") Long userId);
 
 }
