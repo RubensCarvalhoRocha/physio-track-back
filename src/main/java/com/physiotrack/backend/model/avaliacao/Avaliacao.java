@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -25,7 +26,9 @@ public class Avaliacao {
     @JoinColumn(name = "atendimento_id")
     private Atendimento atendimento;
 
-    private LocalDateTime data;
+    private LocalDate data;
+
+    //Anamnese (Dados Gerais)
 
     private Double altura;
     private Double peso;
@@ -42,6 +45,8 @@ public class Avaliacao {
     private String objTratamento;
     private String obsGerais;
 
+    // Perimetria
+
     private Double perimetriaMedida1D;
     private Double perimetriaMedida2D;
     private Double perimetriaMedida3D;
@@ -57,9 +62,15 @@ public class Avaliacao {
     private Double perimetriaMedidaAss3;
     private Double perimetriaPanturrilhaAss;
 
+    // Lunge
     private Double lungeD;
     private Double lungeE;
     private Double lungeAss;
+    private Double lungeD2;
+    private Double lungeE2;
+    private Double lungeAss2;
+
+    // ADM Rotadores de quadril
 
     private Double rotQuadInterD;
     private Double rotQuadInterE;
@@ -69,6 +80,8 @@ public class Avaliacao {
     private Double rotQuadExterE;
     private Double rotQuadExterAss;
 
+    // Extensão/Flexão de Joelho
+
     private Double extJoelhoD;
     private Double extJoelhoE;
     private Double extJoelhoAss;
@@ -77,6 +90,7 @@ public class Avaliacao {
     private Double flexJoelhoE;
     private Double flexJoelhoAss;
 
+    // Single Hop
     private Double shTest1D;
     private Double shTest2D;
     private Double shTest3D;
@@ -88,7 +102,26 @@ public class Avaliacao {
     private Double shTestMediaE;
 
     private Double shTestScore;
+
+    // Side hope
+    private Double sdhTest1D;
+    private Double sdhTest2D;
+    private Double sdhTest3D;
+    private Double sdhTestMediaD;
+
+    private Double sdhTest1E;
+    private Double sdhTest2E;
+    private Double sdhTest3E;
+    private Double sdhTestMediaE;
+
+    private Double sdhTestScore;
+
+    // Single Leg Bridge
     private Double slbTestD;
     private Double slbTestE;
+
+    // Observação
+
+    private String observacao;
 
 }

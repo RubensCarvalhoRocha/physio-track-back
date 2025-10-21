@@ -54,7 +54,7 @@ CREATE TABLE atendimento (
                              usuario_id BIGINT NOT NULL,
                              paciente_id BIGINT NOT NULL,
                              tipo_atendimento VARCHAR(100) NOT NULL,
-                             data_atendimento TIMESTAMP NOT NULL,
+                             data_atendimento DATE NOT NULL,
                              descricao TEXT,
                              CONSTRAINT fk_usuario_atendimento FOREIGN KEY (usuario_id) REFERENCES usuario (id),
                              CONSTRAINT fk_paciente_atendimento FOREIGN KEY (paciente_id) REFERENCES pessoa (id)

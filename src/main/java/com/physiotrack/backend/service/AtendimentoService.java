@@ -53,6 +53,10 @@ public class AtendimentoService {
         return atendimentoRepository.findAll();
     }
 
+    public List<Atendimento> listarAtendimentosPorPaciente(Long pacienteId) {
+        return atendimentoRepository.findAtendimentosPorPessoa(pacienteId);
+    }
+
     public Atendimento obterAtendimento(Long id) {
         return atendimentoRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Atendimento não encontrado com ID: " + id));

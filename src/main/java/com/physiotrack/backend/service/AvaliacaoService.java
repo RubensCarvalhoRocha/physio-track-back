@@ -18,20 +18,23 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +54,7 @@ public class AvaliacaoService {
         Avaliacao avaliacao = new Avaliacao();
         mapper.map(dto, avaliacao);
         avaliacao.setAtendimento(atendimento);
-        avaliacao.setData(LocalDateTime.now());
+        avaliacao.setData(LocalDate.now());
         insetAvaliacao(avaliacao);
         return avaliacao;
     }
@@ -70,17 +73,25 @@ public class AvaliacaoService {
                 .orElseThrow(()->  new ObjectNotFoundException("Avaliação não encontrada"));
     }
 
+    public List<Avaliacao> findAll(Long pacienteId){
+        return avaliacaoRepository.findAll(pacienteId);
+    }
+
+    public List<Avaliacao> findByPeriodo(Long pacienteId, LocalDate dataInicial){
+        return avaliacaoRepository.findAllByPeriodoAndPaciente(pacienteId, dataInicial);
+    }
+
     public byte[] gerarPdf(Long id) throws JRException, IOException {
         // Busca a avaliação
         Avaliacao avaliacao = findLast(id);
 
         // Carrega a imagem do classpath
-        InputStream imageStream = getClass().getResourceAsStream("/jasper/av_V_1/imgBg1.png");
+        InputStream imageStream = getClass().getResourceAsStream("/jasper/av_V_2/imgBg1.png");
         BufferedImage image = null;
         if(imageStream != null){
           image = ImageIO.read(imageStream);
         }
-        InputStream imageStreamPacientePlaceHolder = getClass().getResourceAsStream("/jasper/av_V_1/placeholder-woman.png");
+        InputStream imageStreamPacientePlaceHolder = getClass().getResourceAsStream("/jasper/av_V_2/placeholder-woman.png");
         BufferedImage imagePacientePlaceHolder = null;
         if(imageStreamPacientePlaceHolder != null){
             imagePacientePlaceHolder = ImageIO.read(imageStreamPacientePlaceHolder);
@@ -96,7 +107,7 @@ public class AvaliacaoService {
         parametros.put("data", dataFormatada);
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(List.of(avaliacao));
         //
-        InputStream jrxml = getClass().getResourceAsStream("/jasper/av_V_1/AV_V_1.jrxml");
+        InputStream jrxml = getClass().getResourceAsStream("/jasper/av_V_2/AV_V_2.jrxml");
         JasperReport report = JasperCompileManager.compileReport(jrxml);
         JasperPrint jasperPrint = JasperFillManager.fillReport(report, parametros, dataSource);
 //        // Carregar o template compilado
@@ -107,5 +118,68 @@ public class AvaliacaoService {
         byte[] pdf = JasperExportManager.exportReportToPdf(jasperPrint);
         return pdf;
     }
+
+    public byte[] gerarPdfs(Long pacienteId, LocalDate dataInicial) throws JRException, IOException {
+        // Busca as avaliações conforme o parâmetro
+        List<Avaliacao> avaliacoes;
+        if (dataInicial == null) {
+            avaliacoes = findAll(pacienteId);
+        } else {
+            avaliacoes = findByPeriodo(pacienteId, dataInicial);
+        }
+
+        if (avaliacoes.isEmpty()) {
+            throw new ObjectNotFoundException("Nenhuma avaliação encontrada para os critérios informados.");
+        }
+
+        // Carrega recursos comuns (imagens e template)
+        InputStream imageStream = getClass().getResourceAsStream("/jasper/av_V_2/imgBg1.png");
+        BufferedImage image = (imageStream != null) ? ImageIO.read(imageStream) : null;
+
+        InputStream imageStreamPacientePlaceHolder = getClass().getResourceAsStream("/jasper/av_V_2/placeholder-woman.png");
+        BufferedImage imagePacientePlaceHolder = (imageStreamPacientePlaceHolder != null)
+                ? ImageIO.read(imageStreamPacientePlaceHolder)
+                : null;
+
+        InputStream jrxml = getClass().getResourceAsStream("/jasper/av_V_2/AV_V_2.jrxml");
+        JasperReport report = JasperCompileManager.compileReport(jrxml);
+
+        // Lista que vai acumular todos os relatórios individuais
+        List<JasperPrint> jasperPrints = new ArrayList<>();
+
+        for (Avaliacao avaliacao : avaliacoes) {
+            // Define os parâmetros do relatório
+            Map<String, Object> parametros = new HashMap<>();
+            parametros.put("bgImage", image);
+            parametros.put("pacienteFotoPlaceHolder", imagePacientePlaceHolder);
+            parametros.put("nomePaciente", avaliacao.getAtendimento().getPaciente().getNome());
+            parametros.put("nomeFisioterapeuta", avaliacao.getAtendimento().getUsuario().getPessoa().getNome());
+
+            LocalDateTime dataAtendimento = avaliacao.getAtendimento().getDataAtendimento();
+            String dataFormatada = dataAtendimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            parametros.put("data", dataFormatada);
+
+            // Gera um relatório individual (data source de 1 item)
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(List.of(avaliacao));
+            JasperPrint jasperPrint = JasperFillManager.fillReport(report, parametros, dataSource);
+            jasperPrints.add(jasperPrint);
+        }
+
+        // Junta todos os PDFs individuais em um único
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        JRPdfExporter exporter = new JRPdfExporter();
+        exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrints));
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
+
+        SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
+        configuration.setCreatingBatchModeBookmarks(true);
+        exporter.setConfiguration(configuration);
+
+        exporter.exportReport();
+
+        return outputStream.toByteArray();
+    }
+
 
 }

@@ -36,6 +36,12 @@ public class AtendimentoController {
         return ResponseEntity.ok(atendimento);
     }
 
+    @GetMapping("atendimentos-paciente/{id}")
+    public ResponseEntity<List<Atendimento>> obterAtendimentosPorPaciente(@PathVariable Long id) {
+        List<Atendimento> atendimentos = atendimentoService.listarAtendimentosPorPaciente(id);
+        return ResponseEntity.ok(atendimentos);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Atendimento> atualizarAtendimento(
             @PathVariable Long id,

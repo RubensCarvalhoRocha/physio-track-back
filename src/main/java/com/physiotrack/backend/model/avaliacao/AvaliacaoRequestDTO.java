@@ -47,6 +47,9 @@ public class AvaliacaoRequestDTO {
     private Double lungeD;
     private Double lungeE;
     private Double lungeAss;
+    private Double lungeD2;
+    private Double lungeE2;
+    private Double lungeAss2;
 
     private Double rotQuadInterD;
     private Double rotQuadInterE;
@@ -73,9 +76,22 @@ public class AvaliacaoRequestDTO {
     private Double shTest2E;
     private Double shTest3E;
     private Double shTestMediaE;
-
     private Double shTestScore;
+
+    private Double sdhTest1D;
+    private Double sdhTest2D;
+    private Double sdhTest3D;
+    private Double sdhTestMediaD;
+
+    private Double sdhTest1E;
+    private Double sdhTest2E;
+    private Double sdhTest3E;
+    private Double sdhTestMediaE;
+
+    private Double sdhTestScore;
     private Double slbTestD;
     private Double slbTestE;
+
+    private String observacao;
 
 }

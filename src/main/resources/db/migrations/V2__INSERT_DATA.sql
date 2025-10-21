@@ -57,6 +57,7 @@ INSERT INTO usuario (email, senha, role, tipo_usuario, pessoa_id) VALUES
 
 INSERT INTO atendimento (usuario_id, paciente_id, tipo_atendimento, data_atendimento, descricao) VALUES
                         (1, 2, 'Consulta Inicial', NOW(), 'Consulta para avaliação inicial do paciente.'),
+                        (1, 2, 'Consulta de acompanhamento', NOW(), 'Consulta para acompanhamento do paciente.'),
                         (1, 3, 'Reavaliação', NOW(), 'Reavaliação após um mês de tratamento.');
 
 INSERT INTO imagem (url, descricao, tipo_imagem, atendimento_id) VALUES
@@ -107,4 +108,49 @@ INSERT INTO avaliacao (
 
              7.98, 12.0, 11.5
          );
+
+ INSERT INTO avaliacao (
+     atendimento_id, data, altura, peso, imc, esporte, queixas, historico_saude, medicamentos,
+     cirurgia, tratamento_anterior, exame_imagem, diagnostico_medico, obj_tratamento, obs_gerais,
+
+     perimetria_medida1d, perimetria_medida2d, perimetria_medida3d, perimetria_panturrilhad,
+     perimetria_assimetria_medida1e, perimetria_assimetria_medida2e, perimetria_assimetria_medida3e, perimetria_panturrilhae,
+
+     perimetria_medida_ass1, perimetria_medida_ass2, perimetria_medida_ass3, perimetria_panturrilha_ass,
+
+     lunged, lungee, lunge_ass,
+
+     rot_quad_interd, rot_quad_intere, rot_quad_inter_ass,
+     rot_quad_exterd, rot_quad_extere, rot_quad_exter_ass,
+
+     ext_joelhod, ext_joelhoe, ext_joelho_ass,
+     flex_joelhod, flex_joelhoe, flex_joelho_ass,
+
+     sh_test1d, sh_test2d, sh_test3d, sh_test_mediad,
+     sh_test1e, sh_test2e, sh_test3e, sh_test_mediae,
+
+     sh_test_score, slb_testd, slb_teste
+ ) VALUES (
+              2, '2025-06-15', 1.75, 72.0, 23.5, 'Futebol', 'Dor no joelho ao correr', 'Nenhum problema sério prévio', 'Ibuprofeno',
+              'Meniscectomia em 2022', 'Fisioterapia em 2023', 'Ressonância magnética do joelho', 'Lesão meniscal medial', 'Recuperar mobilidade e reduzir dor', 'Paciente ativo e motivado',
+
+              46.0, 44.5, 45.2, 38.0,
+              2.0, 1.5, 1.8, 36.5,
+
+              43.0, 42.8, 43.5, 37.0,
+
+              30.0, 29.5, 29.8,
+
+              10.0, 10.5, 10.2,
+              12.0, 11.5, 11.8,
+
+              5.0, 5.2, 5.1,
+              6.0, 6.2, 6.1,
+
+              8.0, 8.5, 8.2, 8.23,
+              7.5, 7.8, 7.9, 7.73,
+
+              7.98, 12.0, 11.5
+          );
+
 

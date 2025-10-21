@@ -4,16 +4,13 @@ import com.physiotrack.backend.model.avaliacao.AvaliacaoRequestDTO;
 import com.physiotrack.backend.service.AvaliacaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/avaliacao")
@@ -40,4 +37,19 @@ public class AvaliacaoController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(pdf);
     }
+
+    @GetMapping("/reports")
+    public ResponseEntity<byte[]> gerarRelatorios(
+            @RequestParam Long pacienteId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial
+    ) throws Exception {
+
+        byte[] pdf = avaliacaoService.gerarPdfs(pacienteId, dataInicial);
+
+        return ResponseEntity.ok()
+                .header("Content-Disposition", "inline; filename=relatorio.pdf") // "attachment" → download direto
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdf);
+    }
+
 }
