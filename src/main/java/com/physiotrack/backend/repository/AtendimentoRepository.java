@@ -21,9 +21,9 @@ public interface AtendimentoRepository extends JpaRepository<Atendimento, Long> 
 
     @Query(value = """
     SELECT * FROM atendimento 
-    WHERE usuario_id = :userId 
+    WHERE paciente_id = :pacienteId 
     ORDER BY data_atendimento DESC
     """, nativeQuery = true)
-    List<Atendimento> findAtendimentosPorPessoa(@Param("userId") Long userId);
+    List<Atendimento> findAtendimentosPorPessoa(@Param("pacienteId") Long pacienteId);
 
 }
