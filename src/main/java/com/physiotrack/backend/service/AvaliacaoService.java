@@ -23,6 +23,7 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
@@ -132,7 +133,7 @@ public class AvaliacaoService {
             throw new ObjectNotFoundException("Nenhuma avaliação encontrada para os critérios informados.");
         }
 
-        // Carrega recursos comuns (imagens e template)
+        // Carrega imagens e template
         InputStream imageStream = getClass().getResourceAsStream("/jasper/av_V_2/imgBg1.png");
         BufferedImage image = (imageStream != null) ? ImageIO.read(imageStream) : null;
 
@@ -144,30 +145,43 @@ public class AvaliacaoService {
         InputStream jrxml = getClass().getResourceAsStream("/jasper/av_V_2/AV_V_2.jrxml");
         JasperReport report = JasperCompileManager.compileReport(jrxml);
 
-        // Lista que vai acumular todos os relatórios individuais
         List<JasperPrint> jasperPrints = new ArrayList<>();
-
+        //
+        Boolean perimetriaEmpty = Boolean.TRUE;
+        Boolean lungeEmpty = Boolean.FALSE;
+        Boolean quadrilEmpty = Boolean.FALSE;
+        Boolean flexJoelhoEmpty = Boolean.FALSE;
+        Boolean singleHopEmpty = Boolean.FALSE;
+        Boolean sideHopEmpty = Boolean.FALSE;
+        Boolean slbEmpty = Boolean.FALSE;
+        //
         for (Avaliacao avaliacao : avaliacoes) {
-            // Define os parâmetros do relatório
             Map<String, Object> parametros = new HashMap<>();
             parametros.put("bgImage", image);
             parametros.put("pacienteFotoPlaceHolder", imagePacientePlaceHolder);
             parametros.put("nomePaciente", avaliacao.getAtendimento().getPaciente().getNome());
             parametros.put("nomeFisioterapeuta", avaliacao.getAtendimento().getUsuario().getPessoa().getNome());
+            //
+            parametros.put("perimetriaEmpty", perimetriaEmpty );
+            parametros.put("lungeEmpty", lungeEmpty);
+            parametros.put("quadrilEmpty", quadrilEmpty);
+            parametros.put("flexJoelhoEmpty", flexJoelhoEmpty);
+            parametros.put("singleHopEmpty", singleHopEmpty);
+            parametros.put("sideHopEmpty", sideHopEmpty);
+            parametros.put("slbEmpty", slbEmpty);
+            //
 
             LocalDateTime dataAtendimento = avaliacao.getAtendimento().getDataAtendimento();
             String dataFormatada = dataAtendimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             parametros.put("data", dataFormatada);
 
-            // Gera um relatório individual (data source de 1 item)
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(List.of(avaliacao));
             JasperPrint jasperPrint = JasperFillManager.fillReport(report, parametros, dataSource);
             jasperPrints.add(jasperPrint);
         }
 
-        // Junta todos os PDFs individuais em um único
+        // Exporta todos os relatórios em um PDF combinado
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
         JRPdfExporter exporter = new JRPdfExporter();
         exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrints));
         exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
@@ -178,7 +192,27 @@ public class AvaliacaoService {
 
         exporter.exportReport();
 
-        return outputStream.toByteArray();
+        // ---- Remove as páginas pares ----
+        byte[] pdfBytes = outputStream.toByteArray();
+
+        try (PDDocument document = PDDocument.load(pdfBytes);
+             ByteArrayOutputStream filteredOutput = new ByteArrayOutputStream()) {
+
+            PDDocument filteredDoc = new PDDocument();
+
+            int totalPages = document.getNumberOfPages();
+            for (int i = 0; i < totalPages; i++) {
+                // i começa em 0 → página 1 é i=0 (ímpar)
+                if ((i + 1) % 2 != 0) { // mantém apenas páginas ímpares
+                    filteredDoc.addPage(document.getPage(i));
+                }
+            }
+
+            filteredDoc.save(filteredOutput);
+            filteredDoc.close();
+
+            return filteredOutput.toByteArray();
+        }
     }
 
 
