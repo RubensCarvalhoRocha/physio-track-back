@@ -106,6 +106,10 @@ CREATE TABLE avaliacao (
                            lungee DOUBLE PRECISION,
                            lunge_ass DOUBLE PRECISION,
 
+                           lunged_2 DOUBLE PRECISION,
+                           lungee_2 DOUBLE PRECISION,
+                           lunge_ass_2 DOUBLE PRECISION,
+
                            rot_quad_interd DOUBLE PRECISION,
                            rot_quad_intere DOUBLE PRECISION,
                            rot_quad_inter_ass DOUBLE PRECISION,
@@ -132,9 +136,21 @@ CREATE TABLE avaliacao (
                            sh_test3e DOUBLE PRECISION,
                            sh_test_mediae DOUBLE PRECISION,
 
+                           sdh_test1d DOUBLE PRECISION,
+                           sdh_test2d DOUBLE PRECISION,
+                           sdh_test3d DOUBLE PRECISION,
+                           sdh_test_mediad DOUBLE PRECISION,
+
+                           sdh_test1e DOUBLE PRECISION,
+                           sdh_test2e DOUBLE PRECISION,
+                           sdh_test3e DOUBLE PRECISION,
+                           sdh_test_mediae DOUBLE PRECISION,
+
                            sh_test_score DOUBLE PRECISION,
                            slb_testd DOUBLE PRECISION,
                            slb_teste DOUBLE PRECISION,
+
+                           observacao TEXT,
 
                            CONSTRAINT fk_atendimento_avaliacao FOREIGN KEY (atendimento_id) REFERENCES atendimento (id)
 );

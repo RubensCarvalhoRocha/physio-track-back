@@ -4,38 +4,31 @@ import com.physiotrack.backend.exceptions.ObjectNotFoundException;
 import com.physiotrack.backend.model.atendimento.Atendimento;
 import com.physiotrack.backend.model.avaliacao.Avaliacao;
 import com.physiotrack.backend.model.avaliacao.AvaliacaoRequestDTO;
-import com.physiotrack.backend.model.avaliacao.AvaliacaoResponseDTO;
 import com.physiotrack.backend.model.user.User;
 import com.physiotrack.backend.repository.AvaliacaoRepository;
 import lombok.RequiredArgsConstructor;
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor

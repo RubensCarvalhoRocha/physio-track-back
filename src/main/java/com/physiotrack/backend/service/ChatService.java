@@ -115,8 +115,8 @@ public class ChatService {
     private String gerarPegunta(Long id){
         String pergunta = "Me passe um receita de bolo simples e pequena de nomaximo 1 paragrafo por extenso sem topicos";
         List<Avaliacao> avaliacoes = avaliacaoService.findAll(id);
-        Avaliacao primeira = avaliacoes.getFirst();
-        Avaliacao ultima = avaliacoes.getLast();
+       // Avaliacao primeira = avaliacoes.getFirst();
+        //Avaliacao ultima = avaliacoes.getLast();
         return pergunta;
     }
 }
