@@ -27,10 +27,13 @@ public class ChatController {
         }
     }
 
-    @PostMapping("/gemini")
-    public ResponseEntity<String> perguntarGemini(@RequestBody String pergunta) {
+    /*
+     *  O PathVariable é o pessoaId/pacienteId
+     */
+    @PostMapping("/gemini/{id}")
+    public ResponseEntity<String> perguntarGemini(@PathVariable Long id) {
         try {
-            String resposta = chatService.perguntarGemini(pergunta);
+            String resposta = chatService.perguntarGemini(id);
             return ResponseEntity.ok(resposta);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Erro: " + e.getMessage());

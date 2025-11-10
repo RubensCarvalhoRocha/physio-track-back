@@ -1,5 +1,7 @@
 package com.physiotrack.backend.service;
 
+import com.physiotrack.backend.model.avaliacao.Avaliacao;
+import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -8,9 +10,11 @@ import java.net.http.*;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
+import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class ChatService {
 
     @Value("${openai.api.key}")
@@ -24,6 +28,8 @@ public class ChatService {
 
     @Value("${gemini.api.url}")
     private String geminiUrl;
+
+    private final AvaliacaoService avaliacaoService;
 
     public String perguntar(String pergunta) throws IOException, InterruptedException {
         // Corpo JSON da requisição
@@ -63,7 +69,8 @@ public class ChatService {
                 .trim();
     }
 
-    public String perguntarGemini(String pergunta) throws IOException, InterruptedException {
+    public String perguntarGemini(Long pessoaId) throws IOException, InterruptedException {
+        String pergunta = gerarPegunta(pessoaId);
         // Endpoint correto com a chave na URL
         String endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + geminiKey;
 
@@ -103,5 +110,13 @@ public class ChatService {
                 .getJSONObject(0)
                 .getString("text")
                 .trim();
+    }
+
+    private String gerarPegunta(Long id){
+        String pergunta = "Me passe um receita de bolo simples e pequena de nomaximo 1 paragrafo por extenso sem topicos";
+        List<Avaliacao> avaliacoes = avaliacaoService.findAll(id);
+        Avaliacao primeira = avaliacoes.getFirst();
+        Avaliacao ultima = avaliacoes.getLast();
+        return pergunta;
     }
 }

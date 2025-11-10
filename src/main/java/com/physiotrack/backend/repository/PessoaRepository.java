@@ -20,8 +20,11 @@ public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
     Optional<Pessoa> findById(@Param("id") Long id);
 
     @Query(value = """
-    SELECT * FROM pessoa 
-    WHERE ativo = true
+    SELECT p.* 
+    FROM pessoa p
+    JOIN usuario u ON u.pessoa_id = p.id
+    WHERE p.ativo = true
+      AND u.role <> 'ADMIN'
     """, nativeQuery = true)
     List<Pessoa> findAll();
 
