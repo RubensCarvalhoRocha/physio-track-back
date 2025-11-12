@@ -115,21 +115,25 @@ public class ChatService {
 
     private String gerarPegunta(Long id){
         List<Avaliacao> avaliacoes = avaliacaoService.findAll(id);
-        Avaliacao primeira = avaliacoes.get(0);
-        Avaliacao ultima = avaliacoes.get(avaliacoes.size() - 1);
-
-        String dadosPrimeiraAvaliacao = dadosPrimeiraAvaliacao(primeira);
-        String dadosUltimaAvaliacao = dadosUltimaAvaliacao(ultima);
         StringBuilder pergunta = new StringBuilder();
-        pergunta.append("Regras para a resposta:");
-        pergunta.append("Sempre responda como se você fosse um fisioterapeuta. ");
-        pergunta.append("É permitido que use topico mas sem exageros e sem formatações exageradas. ");
-        pergunta.append("Tenta manter a resposta curta.");
-        pergunta.append("Pedido: Faça a analise das informações do primerio e ultimo atendimento de um paciente de um fisitorapeuta usando os dados da primeira avaliação e os dados da ultima avaliação.");
-        pergunta.append("Dados da primeira avaliação: "+ dadosPrimeiraAvaliacao);
-        pergunta.append(" ");
-        pergunta.append("Dados da ultima avaliação: "+ dadosUltimaAvaliacao);
-
+        if(avaliacoes.size() > 1) {
+            Avaliacao primeira = avaliacoes.get(0);
+            Avaliacao ultima = avaliacoes.get(avaliacoes.size() - 1);
+            String dadosPrimeiraAvaliacao = dadosPrimeiraAvaliacao(primeira);
+            String dadosUltimaAvaliacao = dadosUltimaAvaliacao(ultima);
+            pergunta.append("Regras para a resposta:");
+            pergunta.append("Não precisa dizer coisas como 'Ok vamos fazer a avaliação', só faça. ");
+            pergunta.append("Sempre responda como se você fosse um fisioterapeuta. ");
+            pergunta.append("É permitido que use topico mas sem exageros e sem formatações exageradas. ");
+            pergunta.append("Tenta manter a resposta curta.");
+            pergunta.append("Sempre apresente considerações finais ou resumo. ");
+            pergunta.append("Pedido: Faça a analise das informações do primerio e ultimo atendimento de um paciente de um fisitorapeuta usando os dados da primeira avaliação e os dados da ultima avaliação.");
+            pergunta.append("Dados da primeira avaliação: " + dadosPrimeiraAvaliacao);
+            pergunta.append(" ");
+            pergunta.append("Dados da ultima avaliação: " + dadosUltimaAvaliacao);
+        }else{
+            pergunta.append("Retorne literalmente a mensagem a seguir: 'Não é possível analise com pacientes com menos de dois atendimentos'");
+        }
         return pergunta.toString();
     }
 
