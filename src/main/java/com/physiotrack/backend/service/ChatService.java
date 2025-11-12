@@ -122,7 +122,7 @@ public class ChatService {
             String dadosPrimeiraAvaliacao = dadosPrimeiraAvaliacao(primeira);
             String dadosUltimaAvaliacao = dadosUltimaAvaliacao(ultima);
             pergunta.append("Regras para a resposta:");
-            pergunta.append("Não precisa dizer coisas como 'Ok vamos fazer a avaliação', só faça. ");
+            pergunta.append("Inicie a resposta com 'Analise geral do histórico do Paciente'");
             pergunta.append("Sempre responda como se você fosse um fisioterapeuta. ");
             pergunta.append("É permitido que use topico mas sem exageros e sem formatações exageradas. ");
             pergunta.append("Tenta manter a resposta curta.");
