@@ -17,5 +17,7 @@ public class PessoaRequestDTO {
     private String cpf;
     private String telefone;
     private EnderecoRequestDTO endereco; //TODO Verificar a possibilidade de alterar endereço
+    private Boolean isPaciente; // preenchido automaticamente ao chamar o endpoint de cadastar paciente
+    private String email;
 
 }

@@ -4,18 +4,24 @@ package com.physiotrack.backend.service;
 import com.physiotrack.backend.exceptions.ObjectNotFoundException;
 import com.physiotrack.backend.model.cidade.Cidade;
 import com.physiotrack.backend.model.endereco.Endereco;
+import com.physiotrack.backend.model.enums.Role;
 import com.physiotrack.backend.model.estado.Estado;
 import com.physiotrack.backend.model.pessoa.Pessoa;
 import com.physiotrack.backend.model.pessoa.PessoaPutRequestDTO;
 import com.physiotrack.backend.model.pessoa.PessoaRequestDTO;
 import com.physiotrack.backend.model.pessoa.PessoaResponseDTO;
+import com.physiotrack.backend.model.user.User;
 import com.physiotrack.backend.repository.PessoaRepository;
+import com.physiotrack.backend.repository.UserRepository;
+import com.physiotrack.backend.util.Utilities;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.parameters.P;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.Email;
 import java.util.List;
 
 @Service
@@ -27,11 +33,16 @@ public class PessoaService {
     private final EstadoService estadoService;
     private final EnderecoService enderecoService;
     private final ModelMapper mapper;
+    private final UserRepository userRepository; // assassinato as boas práticas
+    private final PasswordEncoder passwordEncoder;
+    private final Utilities utilities;
+    private final EmailService emailService;
 
     public void insertPessoa (Pessoa pessoa){
         pessoaRepository.save(pessoa);
     }
 
+    @Transactional
     public Pessoa register (PessoaRequestDTO dto){
         //
         Estado estado = estadoService.findById(dto.getEndereco().getEstadoId());
@@ -57,6 +68,27 @@ public class PessoaService {
         //
         insertPessoa(pessoa);
         //
+
+        /*
+            cadastro de usuario de paciente
+         */
+        if(dto.getIsPaciente()){
+            String randomPassword = utilities.gerarSenhaAleatoria(6);
+            User user = User.builder()
+                    .email(dto.getEmail())
+                    .password(passwordEncoder.encode(randomPassword))
+                    .role(Role.USER)
+                    .tipoUsuario("Paciente")
+                    .pessoa(pessoa)
+                    .build();
+            userRepository.save(user);
+            // envia email com senha ao usuario
+            emailService.enviarEmail(
+                    user.getEmail(),
+                    "Cadastro de paciente - PHYSIOTRACK",
+                    "Olá " + pessoa.getNome() + ", seu cadastro foi concluído. Sua senha de acesso é " + randomPassword + "."
+            );
+        }
         return pessoa;
     }
 

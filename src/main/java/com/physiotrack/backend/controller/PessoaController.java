@@ -26,9 +26,10 @@ public class PessoaController {
 
    /*
    * Endpoint utilizado somente para adicionar pacientes, o profissional é registrado como user
-    */
+   */
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody PessoaRequestDTO dto) {
+        dto.setIsPaciente(true);
         pessoaService.register(dto);
         return ResponseEntity.ok().build();
     }

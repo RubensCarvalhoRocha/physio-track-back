@@ -27,6 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final UserService userService;
+    /*
+    endpoint deve ser usado somente para gerar usuario do fisioterapeuta
+     */
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody UserRegisterDTO dto) {
         userService.register(dto);
