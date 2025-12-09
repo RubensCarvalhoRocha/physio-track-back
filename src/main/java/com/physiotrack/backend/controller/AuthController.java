@@ -2,6 +2,7 @@ package com.physiotrack.backend.controller;
 
 import com.physiotrack.backend.model.auth.dto.AuthRequest;
 import com.physiotrack.backend.model.auth.dto.AuthResponse;
+import com.physiotrack.backend.model.auth.dto.AuthRole;
 import com.physiotrack.backend.model.enums.Role;
 import com.physiotrack.backend.model.pessoa.Pessoa;
 import com.physiotrack.backend.model.user.User;
@@ -14,11 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -39,5 +36,15 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
         return ResponseEntity.ok(userService.login(request));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<AuthRole> getLoggedUser() {
+        User user = userService.getLoggedUser();
+        return ResponseEntity.ok(new AuthRole(
+                user.getId(),
+                user.getEmail(),
+                user.getRole()
+        ));
     }
 }

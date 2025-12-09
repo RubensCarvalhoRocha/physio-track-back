@@ -78,8 +78,8 @@ public class UserService {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal instanceof UserDetails userDetails) {
-            String userEmail = ((User)principal).getEmail();
-            return userRepository.findByEmail(userEmail)
+            String email = userDetails.getUsername();
+            return userRepository.findByEmail(email)
                     .orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado"));
         }
 
