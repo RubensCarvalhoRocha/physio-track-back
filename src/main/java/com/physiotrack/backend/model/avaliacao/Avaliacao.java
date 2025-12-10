@@ -3,15 +3,8 @@ package com.physiotrack.backend.model.avaliacao;
 import com.physiotrack.backend.model.atendimento.Atendimento;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -28,8 +21,7 @@ public class Avaliacao {
 
     private LocalDate data;
 
-    //Anamnese (Dados Gerais)
-
+    // Dados Gerais
     private Double altura;
     private Double peso;
     private Double imc;
@@ -46,7 +38,6 @@ public class Avaliacao {
     private String obsGerais;
 
     // Perimetria
-
     private Double perimetriaMedida1D;
     private Double perimetriaMedida2D;
     private Double perimetriaMedida3D;
@@ -62,16 +53,26 @@ public class Avaliacao {
     private Double perimetriaMedidaAss3;
     private Double perimetriaPanturrilhaAss;
 
-    // Lunge
+    // Lunge (mapeamento ajustado)
+    @Column(name = "lunged")
     private Double lungeD;
+
+    @Column(name = "lungee")
     private Double lungeE;
+
+    @Column(name = "lunge_ass")
     private Double lungeAss;
+
+    @Column(name = "lunged_2")
     private Double lungeD2;
+
+    @Column(name = "lungee_2")
     private Double lungeE2;
+
+    @Column(name = "lunge_ass_2")
     private Double lungeAss2;
 
     // ADM Rotadores de quadril
-
     private Double rotQuadInterD;
     private Double rotQuadInterE;
     private Double rotQuadInterAss;
@@ -81,7 +82,6 @@ public class Avaliacao {
     private Double rotQuadExterAss;
 
     // Extensão/Flexão de Joelho
-
     private Double extJoelhoD;
     private Double extJoelhoE;
     private Double extJoelhoAss;
@@ -103,7 +103,7 @@ public class Avaliacao {
 
     private Double shTestScore;
 
-    // Side hope
+    // Side Hop
     private Double sdhTest1D;
     private Double sdhTest2D;
     private Double sdhTest3D;
@@ -121,7 +121,5 @@ public class Avaliacao {
     private Double slbTestE;
 
     // Observação
-
     private String observacao;
-
 }
