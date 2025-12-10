@@ -29,6 +29,8 @@ public class AuthController {
      */
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody UserRegisterDTO dto) {
+        dto.setIsPaciente(false);
+        dto.getPessoa().setIsPaciente(false);
         userService.register(dto);
         return ResponseEntity.ok().build();
     }

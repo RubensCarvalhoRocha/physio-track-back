@@ -15,5 +15,6 @@ public class UserRegisterDTO {
     private String email;
     private String password;
     private PessoaRequestDTO pessoa;
+    private Boolean isPaciente;
 
 }
