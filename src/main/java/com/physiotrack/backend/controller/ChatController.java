@@ -16,16 +16,16 @@ public class ChatController {
         this.chatService = chatService;
     }
 
-    @PostMapping("/openai")
-    public ResponseEntity<String> perguntar(@RequestBody Map<String, String> body) {
-        try {
-            String pergunta = body.get("pergunta");
-            String resposta = chatService.perguntar(pergunta);
-            return ResponseEntity.ok(resposta);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Erro: " + e.getMessage());
-        }
-    }
+    // @PostMapping("/openai")
+    // public ResponseEntity<String> perguntar(@RequestBody Map<String, String> body) {
+    //     try {
+    //         String pergunta = body.get("pergunta");
+    //         String resposta = chatService.perguntar(pergunta);
+    //         return ResponseEntity.ok(resposta);
+    //     } catch (Exception e) {
+    //         return ResponseEntity.internalServerError().body("Erro: " + e.getMessage());
+    //     }
+    // }
 
     /*
      *  O PathVariable é o pessoaId/pacienteId

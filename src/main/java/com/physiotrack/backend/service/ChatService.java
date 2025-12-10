@@ -18,11 +18,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatService {
 
-    @Value("${openai.api.key}")
-    private String apiKey;
+    // @Value("${openai.api.key}")
+    // private String apiKey;
 
-    @Value("${openai.api.url}")
-    private String apiUrl;
+    // @Value("${openai.api.url}")
+    // private String apiUrl;
 
     @Value("${gemini.api.key}")
     private String geminiKey;
@@ -32,43 +32,43 @@ public class ChatService {
 
     private final AvaliacaoService avaliacaoService;
 
-    public String perguntar(String pergunta) throws IOException, InterruptedException {
-        // Corpo JSON da requisição
-        String jsonBody = """
-        {
-          "model": "gpt-4o-mini",
-          "messages": [
-            {"role": "system", "content": "Você é um assistente útil."},
-            {"role": "user", "content": "%s"}
-          ]
-        }
-        """.formatted(pergunta);
+    // public String perguntar(String pergunta) throws IOException, InterruptedException {
+    //     // Corpo JSON da requisição
+    //     String jsonBody = """
+    //     {
+    //       "model": "gpt-4o-mini",
+    //       "messages": [
+    //         {"role": "system", "content": "Você é um assistente útil."},
+    //         {"role": "user", "content": "%s"}
+    //       ]
+    //     }
+    //     """.formatted(pergunta);
 
-        // Cria cliente e requisição
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(apiUrl))
-                .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer " + apiKey)
-                .POST(HttpRequest.BodyPublishers.ofString(jsonBody, StandardCharsets.UTF_8))
-                .build();
+    //     // Cria cliente e requisição
+    //     HttpClient client = HttpClient.newHttpClient();
+    //     HttpRequest request = HttpRequest.newBuilder()
+    //             .uri(URI.create(apiUrl))
+    //             .header("Content-Type", "application/json")
+    //             .header("Authorization", "Bearer " + apiKey)
+    //             .POST(HttpRequest.BodyPublishers.ofString(jsonBody, StandardCharsets.UTF_8))
+    //             .build();
 
-        // Envia e lê resposta
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+    //     // Envia e lê resposta
+    //     HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        if (response.statusCode() != 200) {
-            throw new RuntimeException("Erro da OpenAI: " + response.body());
-        }
+    //     if (response.statusCode() != 200) {
+    //         throw new RuntimeException("Erro da OpenAI: " + response.body());
+    //     }
 
-        // Extrai resposta JSON
-        JSONObject json = new JSONObject(response.body());
-        return json
-                .getJSONArray("choices")
-                .getJSONObject(0)
-                .getJSONObject("message")
-                .getString("content")
-                .trim();
-    }
+    //     // Extrai resposta JSON
+    //     JSONObject json = new JSONObject(response.body());
+    //     return json
+    //             .getJSONArray("choices")
+    //             .getJSONObject(0)
+    //             .getJSONObject("message")
+    //             .getString("content")
+    //             .trim();
+    // }
 
     public String perguntarGemini(Long pessoaId) throws IOException, InterruptedException {
         String pergunta = gerarPegunta(pessoaId);
