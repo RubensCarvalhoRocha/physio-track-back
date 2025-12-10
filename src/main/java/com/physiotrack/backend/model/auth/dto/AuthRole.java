@@ -10,4 +10,5 @@ public class AuthRole {
     private Long id;
     private String email;
     private Role role;
+    private String tipoUsuario;
 }
