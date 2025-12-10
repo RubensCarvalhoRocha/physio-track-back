@@ -177,7 +177,7 @@ public class ChatService {
         Double primeiraShTestScore = primeira.getShTestScore();
         Double primeiraSdhTestMediaD = primeira.getSdhTestMediaD();
         Double primeiraSdhTestMediaE = primeira.getSdhTestMediaE();
-        Double primeiraSdhTestScore = primeira.getSdhTestScore();
+        Double primeiraSdhTestScore = primeira.getShTestScore();
         Double primeiraSlbTestD = primeira.getSlbTestD();
         Double primeiraSlbTestE = primeira.getSlbTestE();
         //
@@ -349,7 +349,7 @@ public class ChatService {
         Double ultimaShTestScore = ultima.getShTestScore();
         Double ultimaSdhTestMediaD = ultima.getSdhTestMediaD();
         Double ultimaSdhTestMediaE = ultima.getSdhTestMediaE();
-        Double ultimaSdhTestScore = ultima.getSdhTestScore();
+        Double ultimaSdhTestScore = ultima.getShTestScore();
         Double ultimaSlbTestD = ultima.getSlbTestD();
         Double ultimaSlbTestE = ultima.getSlbTestE();
         //
