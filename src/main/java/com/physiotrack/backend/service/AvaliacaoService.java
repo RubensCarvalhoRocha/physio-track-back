@@ -85,7 +85,7 @@ public class AvaliacaoService {
         if(imageStream != null){
           image = ImageIO.read(imageStream);
         }
-        InputStream imageStreamPacientePlaceHolder = getClass().getResourceAsStream("/jasper/av_V_2/placeholder-woman.png");
+        InputStream imageStreamPacientePlaceHolder = getClass().getResourceAsStream("/jasper/av_V_2/imagemPessoaPlaceholder.jpg");
         BufferedImage imagePacientePlaceHolder = null;
         if(imageStreamPacientePlaceHolder != null){
             imagePacientePlaceHolder = ImageIO.read(imageStreamPacientePlaceHolder);
@@ -169,7 +169,7 @@ public class AvaliacaoService {
         InputStream imageStream = getClass().getResourceAsStream("/jasper/av_V_2/imgBg1.png");
         BufferedImage image = (imageStream != null) ? ImageIO.read(imageStream) : null;
 
-        InputStream imageStreamPacientePlaceHolder = getClass().getResourceAsStream("/jasper/av_V_2/placeholder-woman.png");
+        InputStream imageStreamPacientePlaceHolder = getClass().getResourceAsStream("/jasper/av_V_2/imagemPessoaPlaceholder.jpg");
         BufferedImage imagePacientePlaceHolder = (imageStreamPacientePlaceHolder != null)
                 ? ImageIO.read(imageStreamPacientePlaceHolder)
                 : null;

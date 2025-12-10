@@ -73,7 +73,7 @@ public class ChatService {
     public String perguntarGemini(Long pessoaId) throws IOException, InterruptedException {
         String pergunta = gerarPegunta(pessoaId);
         // Endpoint correto com a chave na URL
-        String endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + geminiKey;
+        String endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=" + geminiKey;
 
         // Corpo JSON esperado pela API Gemini
         String jsonBody = """
