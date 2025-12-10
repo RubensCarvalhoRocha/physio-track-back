@@ -153,4 +153,59 @@ INSERT INTO avaliacao (
                8.95, 14.0, 13.8
            );
 
+           INSERT INTO avaliacao (
+               atendimento_id, data, altura, peso, imc, esporte, queixas, historico_saude, medicamentos,
+               cirurgia, tratamento_anterior, exame_imagem, diagnostico_medico, obj_tratamento, obs_gerais,
+
+               perimetria_medida1d, perimetria_medida2d, perimetria_medida3d, perimetria_panturrilhad,
+               perimetria_assimetria_medida1e, perimetria_assimetria_medida2e, perimetria_assimetria_medida3e, perimetria_panturrilhae,
+               perimetria_medida_ass1, perimetria_medida_ass2, perimetria_medida_ass3, perimetria_panturrilha_ass,
+
+               lunged, lungee, lunge_ass,
+               lunged_2, lungee_2, lunge_ass_2,
+
+               rot_quad_interd, rot_quad_intere, rot_quad_inter_ass,
+               rot_quad_exterd, rot_quad_extere, rot_quad_exter_ass,
+
+               ext_joelhod, ext_joelhoe, ext_joelho_ass,
+               flex_joelhod, flex_joelhoe, flex_joelho_ass,
+
+               sh_test1d, sh_test2d, sh_test3d, sh_test_mediad,
+               sh_test1e, sh_test2e, sh_test3e, sh_test_mediae,
+
+               sdh_test1d, sdh_test2d, sdh_test3d, sdh_test_mediad,
+               sdh_test1e, sdh_test2e, sdh_test3e, sdh_test_mediae,
+
+               sh_test_score, slb_testd, slb_teste,
+               observacao
+           )
+           VALUES (
+               2, '2025-12-15', 1.78, 82.5, 26.0, 'musculação e Futebol', 'dor lombar leve', 'Recuperado da cirurgia, sem limitações funcionais',
+               'nenhum', 'apendicectomia em 2025', 'fisioterapia em 2023', 'RX lombar normal', 'disfunção postural',
+               'melhorar mobilidade e reduzir dor', 'paciente colaborativo e ativo',
+
+               52.3, 54.1, 55.8, 36.2,
+               51.8, 53.7, 55.1, 35.9,
+               0.5, 0.4, 0.7, 0.3,
+
+               42.1, 43.5, 1.4,
+               43.0, 44.2, 1.2,
+
+               35.2, 36.1, 0.9,
+               28.5, 29.4, 0.9,
+
+               120.5, 118.3, 2.2,
+               102.1, 100.8, 1.3,
+
+               11.2, 11.5, 11.1, 11.27,
+               10.9, 10.7, 11.0, 10.87,
+
+               29.4, 30.1, 29.8, 29.77,
+               28.7, 28.1, 28.9, 28.57,
+
+               58.3, 31.2, 29.9,
+               '3 avaliacao sem intercorrências'
+           );
+
+
 

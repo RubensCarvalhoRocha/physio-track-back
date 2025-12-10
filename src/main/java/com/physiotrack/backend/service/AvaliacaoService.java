@@ -92,6 +92,36 @@ public class AvaliacaoService {
         }
         LocalDateTime dataAtendimento = avaliacao.getAtendimento().getDataAtendimento();
         String dataFormatada = dataAtendimento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        //
+        Boolean perimetriaEmpty = Boolean.FALSE;
+        Boolean lungeEmpty = Boolean.FALSE;
+        Boolean quadrilEmpty = Boolean.FALSE;
+        Boolean flexJoelhoEmpty = Boolean.FALSE;
+        Boolean singleHopEmpty = Boolean.FALSE;
+        Boolean sideHopEmpty = Boolean.FALSE;
+        Boolean slbEmpty = Boolean.FALSE;
+        //
+        if(avaliacao.getPerimetriaMedida1D() == null){
+            perimetriaEmpty = Boolean.TRUE;
+        }
+        if(avaliacao.getLungeD() == null){
+            lungeEmpty = Boolean.TRUE;
+        }
+        if(avaliacao.getRotQuadInterD() == null){
+            quadrilEmpty = Boolean.TRUE;
+        }
+        if(avaliacao.getFlexJoelhoD() == null){
+            flexJoelhoEmpty = Boolean.TRUE;
+        }
+        if(avaliacao.getShTest1D() == null){
+            singleHopEmpty = Boolean.TRUE;
+        }
+        if(avaliacao.getSdhTest1D() == null){
+            sideHopEmpty = Boolean.TRUE;
+        }
+        if(avaliacao.getSlbTestD() == null){
+            slbEmpty = Boolean.TRUE;
+        }
         // Define os parâmetros
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("bgImage", image);
@@ -99,6 +129,15 @@ public class AvaliacaoService {
         parametros.put("nomePaciente", avaliacao.getAtendimento().getPaciente().getNome());
         parametros.put("nomeFisioterapeuta", avaliacao.getAtendimento().getUsuario().getPessoa().getNome());
         parametros.put("data", dataFormatada);
+        //
+        parametros.put("perimetriaEmpty", perimetriaEmpty );
+        parametros.put("lungeEmpty", lungeEmpty);
+        parametros.put("quadrilEmpty", quadrilEmpty);
+        parametros.put("flexJoelhoEmpty", flexJoelhoEmpty);
+        parametros.put("singleHopEmpty", singleHopEmpty);
+        parametros.put("sideHopEmpty", sideHopEmpty);
+        parametros.put("slbEmpty", slbEmpty);
+        //
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(List.of(avaliacao));
         //
         InputStream jrxml = getClass().getResourceAsStream("/jasper/av_V_2/AV_V_2.jrxml");
@@ -140,7 +179,7 @@ public class AvaliacaoService {
 
         List<JasperPrint> jasperPrints = new ArrayList<>();
         //
-        Boolean perimetriaEmpty = Boolean.TRUE;
+        Boolean perimetriaEmpty = Boolean.FALSE;
         Boolean lungeEmpty = Boolean.FALSE;
         Boolean quadrilEmpty = Boolean.FALSE;
         Boolean flexJoelhoEmpty = Boolean.FALSE;
@@ -149,6 +188,29 @@ public class AvaliacaoService {
         Boolean slbEmpty = Boolean.FALSE;
         //
         for (Avaliacao avaliacao : avaliacoes) {
+            //
+//            if(avaliacao.getPerimetriaMedida1D() == null){
+//                perimetriaEmpty = Boolean.TRUE;
+//            }
+//            if(avaliacao.getLungeD() == null){
+//                lungeEmpty = Boolean.TRUE;
+//            }
+//            if(avaliacao.getRotQuadInterD() == null){
+//                quadrilEmpty = Boolean.TRUE;
+//            }
+//            if(avaliacao.getFlexJoelhoD() == null){
+//                flexJoelhoEmpty = Boolean.TRUE;
+//            }
+//            if(avaliacao.getShTest1D() == null){
+//                singleHopEmpty = Boolean.TRUE;
+//            }
+//            if(avaliacao.getSdhTest1D() == null){
+//                sideHopEmpty = Boolean.TRUE;
+//            }
+//            if(avaliacao.getSlbTestD() == null){
+//                slbEmpty = Boolean.TRUE;
+//            }
+            //
             Map<String, Object> parametros = new HashMap<>();
             parametros.put("bgImage", image);
             parametros.put("pacienteFotoPlaceHolder", imagePacientePlaceHolder);

@@ -90,7 +90,7 @@
 	<field name="sdhTest3E" class="java.lang.Double"/>
 	<field name="sdhTestMediaE" class="java.lang.Double"/>
 	<field name="sdhTestScore" class="java.lang.Double"/>
-	<field name="observacao" class="java.lang.Double"/>
+	<field name="observacao" class="java.lang.String"/>
 	<group name="P1" isStartNewPage="true">
 		<groupHeader>
 			<band height="842" splitType="Stretch">
